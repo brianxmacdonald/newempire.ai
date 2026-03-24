@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEW EMPIRE AI</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="256x256" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #000000;
+    --text-primary: #f0f6fc;
+    --text-secondary: #7d8590;
+    --accent: #00ffff;
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-fira: 'Fira Code', monospace;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #matrix-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.2;
+  }
+
+  .cancel-card {
+    position: relative;
+    z-index: 10;
+    max-width: 520px;
+    width: 90%;
+    text-align: center;
+    padding: 60px 40px;
+  }
+
+  .cancel-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+  }
+
+  .cancel-body {
+    color: var(--text-secondary);
+    font-family: var(--font-fira);
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  @keyframes subtle-pulse {
+    0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,255,0.15); }
+    50%      { box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 25px rgba(0,255,255,0.25); }
+  }
+
+  .cancel-btn {
+    background: linear-gradient(135deg, #00ffff 0%, #000000 100%);
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    padding: 14px 32px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: var(--font-inter);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: subtle-pulse 3s ease-in-out infinite;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .cancel-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 35px rgba(0,255,255,0.5);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="cancel-card">
+  <h1 class="cancel-title">No pressure.</h1>
+  <p class="cancel-body">
+    Checkout wasn't completed &mdash; you haven't been charged anything.<br><br>
+    If you had a question or hit a snag, the offer's still here when you're ready.
+  </p>
+  <a href="/" class="cancel-btn">Back to the page</a>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('matrix-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  var chars = 'アイウエオカキクケコ0123456789ABCDEF@#$%'.split('');
+  var fs = 14, cols = Math.floor(canvas.width / fs), drops = [];
+  for (var i = 0; i < cols; i++) drops[i] = -Math.random() * 100;
+  setInterval(function() {
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fs + 'px monospace';
+    var nc = Math.floor(canvas.width / fs);
+    if (nc !== cols) { var od = drops; cols = nc; drops = []; for (var j = 0; j < cols; j++) drops[j] = od[j] !== undefined ? od[j] : -Math.random() * 100; }
+    for (var t = 0; t < drops.length; t++) {
+      var c = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillStyle = Math.random() > 0.98 ? '#fff' : 'rgba(0,255,255,' + (0.3 + 0.7 * Math.min(1, drops[t] / 20)) + ')';
+      ctx.fillText(c, fs * t, fs * drops[t]);
+      drops[t]++;
+      if (fs * drops[t] > canvas.height && Math.random() > 0.975) drops[t] = 0;
+    }
+  }, 35);
+})();
+</script>
+</body>
+</html>
