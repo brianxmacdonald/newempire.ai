@@ -162,7 +162,7 @@
     color: var(--text-primary);
     text-transform: uppercase;
     line-height: 1;
-    margin-bottom: 48px;
+    margin-bottom: 25px;
     padding: 0 16px;
     font-size: max(3rem, min(8vw, 3.5rem));
   }
@@ -170,7 +170,7 @@
   .hero-subtitle {
     font-family: var(--font-fira);
     line-height: 1.6;
-    padding: 0 16px;
+    padding: 0 1px;
     margin-bottom: 32px;
     font-size: max(0.875rem, min(3vw, 1rem));
   }
@@ -265,8 +265,8 @@
     margin-bottom: 100px;
     position: relative;
     z-index: 10;
-    padding-left: 40px;
-    padding-right: 16px;
+    padding-left: 20px;
+    padding-right: 12px;
     width: 100%;
     max-width: 1200px;
   }
@@ -704,7 +704,7 @@
 //     → OpenClaw creates GHL contact + sends SKOOL invite
 // ═══════════════════════════════════════════════════
 (function() {
-  var ENDPOINT = 'https://webhooks.nlvl.co/create-checkout-session';
+  var ENDPOINT = 'https://checkout.nlvl.co/create-checkout-session';
 
   var btn     = document.getElementById('btn-checkout');
   var errEl   = document.getElementById('checkout-error');
